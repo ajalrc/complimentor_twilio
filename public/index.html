@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="main.css" />
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,900&display=swap" rel="stylesheet" />
+    <title>Complimetor</title>
+</head>
+<body>
+    <div id="app" class="container">
+        <div>
+            <h1>Complimentor</h1>
+            <h2>Recent Sent Compliments</h2>
+            <div class="content">
+                <ul if v-if="compliments.length>0">
+                    <li v-for="compliment in compliments">
+                        {{compliment}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div>
+            <form method="POST" class="main-form" action="/postcompliment" id="compliment-form">
+                <div class="form-row">
+                    <label for="to">
+                        Number to Compliment
+                        <input
+                        name="to"
+                        v-model="to"
+                        required
+                        placeholder="987123456"
+                        type="number"
+                        >
+                    </label>
+                    <label for="receiver">
+                        Name to Compliment
+                        <input 
+                        name="receiver" 
+                        v-model="receiver" 
+                        required 
+                        placeholder="Mr. Tom Hank" 
+                        type="text">
+                    </label>
+                </div>
+                <div class="form-row">
+                        <label for="sender">
+                            Your name
+                            <input
+                            name="sender"
+                            v-model="sender"
+                            required
+                            placeholder="Forest Gump"
+                            type="text"
+                            >
+                        </label>
+                        <label for="compliment">
+                            Compliment
+                            <input 
+                            name="compliment" 
+                            v-model="compliment" 
+                            required 
+                            placeholder="awesome person" 
+                            type="text">
+                        </label>
+                </div>
+            </form>
+        </div>
+        <button
+            form="compliment-form"
+            class="compliment-button"
+            @click.prevent="sendcompliments"
+            >
+            Send Compliment
+        </button>
+    </div>
+    <script>
+        const vueapp=new Vue({
+            el:'#app',
+            data:{
+                compliments:[],
+                to:null,
+                sender:null,
+                receiver:null,
+                compliment:null
+            },
+            methods:{
+                
+                async refreshcompliments(){
+                    const compliments=await fetch('/getcompliment');
+                    this.compliments=await compliments.json();
+                },
+                async sendcompliments(){
+                    const data={
+                        to:this.to,
+                        sender:this.sender,
+                        receiver:this.receiver,
+                        compliment:this.compliment
+                    };
+                    const response=await fetch('/postcompliment',{
+                        method:"POST",
+                        headers:{
+                            Accept: "applicaiton/json",
+                            'Content-Type':'application/json'
+                        },
+                        body:JSON.stringify(data)
+                    })
+                    this.to=null;
+                    this.sender=null;
+                    this.receiver=null;
+                    this.compliment=null;
+                    this.refreshcompliments();
+
+                }
+            },
+            created() {
+                this.refreshcompliments();
+            },
+            
+        })
+    </script>
+</body>
+</html>
