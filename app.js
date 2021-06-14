@@ -12,6 +12,7 @@ const app=express()
 app.use(bodyParser.json())
 const client=new twilio(TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN);
 app.use(express.static('public'))
+
 app.get('/getcompliment',async(req,res)=>{
     const compliments=await client.messages.list({limit:5})
     const messages=compliments.map(message=>message.body)
@@ -32,5 +33,5 @@ app.post('/postcompliment',async (req,res)=>{
     res.json({success:true})
 })
 
-const PORT=5000;
+const PORT= process.env.PORT || 5000;
 app.listen(PORT,console.log(`Listening to ${PORT}`))
