@@ -6,7 +6,7 @@ compliment our loved ones to support them and motivate them to stay strong.
 ```
 npm install
 ```
-**Create ".env" file and add these credentials**
+**Create ".env" file and add these credentials**  <br />
 To get the credentials, you have to set up a Twilio account. You can use the free tier version, then grab then get your self a free Twilio number, Twilio Auth Token, and Twilio Account SID. More more info on how to get it, look here:
 https://support.twilio.com/hc/en-us/articles/223136027-Auth-Tokens-and-How-to-Change-Them#:~:text=Access%20the%20Account%20%2D%3E%20General%20Settings,update%20your%20existing%20Twilio%20applications.
 https://support.twilio.com/hc/en-us/articles/223134387-What-is-a-Message-SID-#:~:text=To%20find%20the%20SID%20for,details%20page%20for%20that%20message.
